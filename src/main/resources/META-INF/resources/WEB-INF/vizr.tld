@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<taglib >
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>2.0</jsp-version>
+	<short-name>VIZR TLD</short-name>
+	<tag>
+		<name>line</name>
+		<tag-class>cbo.vizr.front.tags.ChartTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>load</name>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
