@@ -12,7 +12,9 @@ It is intended to be used in SpringBoot applications.
   * creation of new charts based on SQL query.
 
 ### Work in progress
- * Allow creation of charts direclty from collections of annotated objects
+ * Creation of charts direclty from collections of annotated objects
+ * Creation of reports, combining different charts
+ * Allowing to define variables in charts, and update chart display on variable change
 
 ## Integration
   
@@ -20,7 +22,9 @@ A tld file is included. Adding a chart to your page is done by adding the tag an
 ```html
 <fieldSet style="height: 400px;" id="fs">
 	<legend id="chartName"></legend>
-    <vz:line name="test" load="false" />
+	
+	<!-- Display of the chart named 'test' in the page : -->
+    <vz:chart name="test" load="false" />
 </fieldSet>
 `````
 
@@ -38,3 +42,15 @@ In this interface, you can then manually define your chart :
 		}
 		return sCurve;
 ````
+
+## Listing
+
+The admin application allow a quick display of all charts defined.
+![picture alt](chartList.PNG "Title is optional")
+
+
+## Creating
+
+The admin application allow a quick creation of charts from SQL queries.
+Type your query, select your X axis and your Y axis, the type of chart, and see the result immediately.
+![picture alt](chartFromSQL.PNG "Title is optional")
