@@ -1,6 +1,6 @@
 # VIZIR
 
-Vizir is a java library meant to streamline chart creation and display.
+Vizir is a java library meant to streamline chart creation and display (using Chart.js for the front end display).
 It is intended to be used in SpringBoot applications.
 
 ## Features
