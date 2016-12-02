@@ -17,7 +17,18 @@
 <script src="/vizr.js"></script>
 
 <script>
-	function displayChart(selectName ) {
+	var selected = null;
+
+	function displayChart(chartElement ) {
+		
+
+		
+		if(selected != null){
+			selected.className = 'chart';
+		}
+		
+		selected = chartElement;
+		selected.className += ' selected';
 		
 		var fieldset = document.getElementById('fs');
 		var canvas = document.getElementById('test');
@@ -27,7 +38,7 @@
 		newCanvas.id = 'test';
 		fieldset.appendChild(newCanvas);
 
-		loadChart('/vizr/chart/' + selectName, 'test');
+		loadChart('/vizr/chart/' + chartElement.id, 'test');
 
 		document.getElementById('chartName').innerHTML=selectName;
 		
@@ -40,12 +51,12 @@
 
 
 			<c:forEach var="provider" items="${providers}">
-				<p class="provider">
+				<p class="provider" id="${provider.name}">
 					<c:out value="${provider.name}" />
 				</p>
 
 				<c:forEach var="chart" items="${provider.charts}">
-					<p class="chart" onclick="displayChart('${chart}');">
+					<p class="chart" id="${chart}" provider="${provider.name}" onclick="displayChart(this);">
 						<c:out value="${chart}" />
 					</p>
 				</c:forEach>
@@ -67,6 +78,12 @@
 	</div>
 
 </body>
+<c:if test="${loadChart}">
 
+<script>
+	displayChart(${chartName});
+</script>
+
+</c:if>
 
 </html>

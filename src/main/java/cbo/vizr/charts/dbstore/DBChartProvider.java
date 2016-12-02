@@ -3,6 +3,7 @@ package cbo.vizr.charts.dbstore;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,10 +83,66 @@ public class DBChartProvider implements ChartProvider {
 
 		GradientPalette palette = new GradientPalette(new Color(255, 205, 46, 0.8f), new Color(204, 34, 0, 0.8f));
 		//PlainPalette palette = new PlainPalette(new Color(244, 121, 32, 0.8f));
-		palette.applyPalette(chart.getData().getDatasets().get(0));
+		
+		if(chart.getData().getDatasets().size() > 0){
+			palette.applyPalette(chart.getData().getDatasets().get(0));
+		}
 		
 
 		return chart;
+	}
+	
+	public QueryResult executeQuery(String sql)throws SQLException {
+		
+
+		QueryResult queryResult = new QueryResult();
+		queryResult.setSql(sql);
+
+		if(StringUtils.isEmpty(sql)){
+			throw new SQLException("SQL cannot be null.");
+		}
+		
+		Connection con= null;
+		PreparedStatement st = null;
+
+		try{
+			con = source.getConnection();
+			st = con.prepareStatement(sql);
+
+			ResultSet rs = st.executeQuery();
+			
+			ResultSetMetaData md = rs.getMetaData();
+			for(int i =0 ; i < md.getColumnCount() ; i++){
+				queryResult.getHeaders().add(md.getColumnLabel(i+1));
+			}
+
+			while(rs.next()){
+
+				ArrayList<String> rowData = new ArrayList<>();
+				queryResult.getRows().add(rowData);
+				
+				for(String colmunLabel : queryResult.getHeaders()){
+					rowData.add(rs.getObject(colmunLabel).toString());
+				}
+			}
+
+
+		}catch(SQLException e) {
+			throw e;
+		}finally {
+			try {
+				if(st!=null)
+					st.close();
+				if(con!=null)
+					con.close();
+			} catch (SQLException e) {
+				throw e;
+			}
+		}
+
+		queryResult.setMessage(queryResult.getRows().size()+" rows.");
+		return queryResult;
+
 	}
 
 	private Data treatSQL(String sql, String axisX, List<String> axisY) throws SQLException {
@@ -148,6 +205,11 @@ public class DBChartProvider implements ChartProvider {
 
 		return data;
 
+	}
+
+	public void save(SqlChart chart) {
+		repo.save(chart);
+		
 	}
 
 

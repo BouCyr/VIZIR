@@ -3,11 +3,9 @@ package cbo.vizr.rest;
 import java.util.List;
 import java.util.Random;
 
-import javax.sql.DataSource;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,11 +26,6 @@ public class ChartWS {
 	List<ChartProvider> allProviders;
 
 
-	@Autowired
-	@Qualifier("VIZRDataSource")
-	private DataSource ds;
-	
-
 
 	@RequestMapping(consumes=MediaType.APPLICATION_JSON, 
 			produces=MediaType.APPLICATION_JSON, 
@@ -40,14 +33,11 @@ public class ChartWS {
 			path="/chart/{name}")
 	public RestChart chart(@PathVariable(value="name", required=true  )String name) throws ChartCreationException{
 
-		ds.toString();
-
 		for(ChartProvider provider : allProviders){
 			for(String chartName : provider.getChartNames()){
 				if(chartName.equals(name)){
 					return provider.getChart(chartName);
 				}
-
 			}
 		}
 

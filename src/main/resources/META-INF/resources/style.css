@@ -27,9 +27,11 @@ table{
 
 td, th{
 	border:1px solid #aaa;
+	width:auto;
 }
 
 .legend{
+	width:100px;
 	border:0;
 	color: #aaa;
 	text-align: right;
@@ -40,28 +42,32 @@ td, th{
 
 p{
 	margin:0;
+	margin-left:5px;
 	padding:4px;
 	color: #ccc;
 	font-size: small;
 }
 
-p:hover{
-	text-decoration: underline;
-	cursor: pointer;
+
+
+.selected{
+	border-radius:2px;
+	border-left:2px solid  #f47920;
 }
 
 .provider{
-	background : #f47920;
-	color:white;
-	margin:5px;
-	border-radius:2px;
-	height:25px;
-	line-height: 25px;
-	vertical-align: middle;
+	
+	font-weight: bold;
+    font-size: initial;
 }
 
 .chart{
-	margin-left:15px;
+	padding-left:10px;
+	cursor: pointer;
+	text-decoration: underline;
+}
+.chart:hover{
+	color:#f47920;
 }
 
 fieldset {
@@ -76,7 +82,7 @@ fieldset {
 	display:flex;
 	z-index: 9999;
 	margin: auto;
-	width:70%;
+	width:50%;
 	margin-top: 20px;
 }
 
@@ -91,6 +97,13 @@ fieldset {
 	border: 1px solid #eaeaea;
 	
 	padding : 5px;
+	
+}
+
+#sqlError{
+	color:red;
+	font-style: italic;
+	font-size:small;
 	
 }
 
@@ -109,6 +122,10 @@ fieldset {
 	justify-content: center; 
 	align-content: flex-start; 
 	align-items: center;
+}
+
+.testChart{
+	max-height:500px;
 }
 
 #test {
