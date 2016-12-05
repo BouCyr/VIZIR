@@ -108,8 +108,8 @@
 					</fieldSet>
 				</div>
 				<div class="actions">
-					<button type="button" class="cancelButton" onclick="window.location.replace('/sql');return true;" >Cancel</button>
-					<button type="button" class="okButton" onclick="saveChart();">Sauver</button>
+					<button type="button" class="cancel" onclick="window.location.replace('/sql');return true;" >Cancel</button>
+					<button type="button" class="ok" onclick="saveChart();">Sauver</button>
 				</div>
 			</form:form>
 		</div>
