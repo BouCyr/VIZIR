@@ -85,7 +85,10 @@ public class DBChartProvider implements ChartProvider {
 		//PlainPalette palette = new PlainPalette(new Color(244, 121, 32, 0.8f));
 		
 		if(chart.getData().getDatasets().size() > 0){
-			palette.applyPalette(chart.getData().getDatasets().get(0));
+			
+			for(DataSet ds : chart.getData().getDatasets()){
+				palette.applyPalette(ds);
+			}
 		}
 		
 

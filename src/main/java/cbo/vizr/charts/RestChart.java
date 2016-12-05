@@ -1,7 +1,5 @@
 package cbo.vizr.charts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class RestChart  {
 
 	private ChartType chartType;
@@ -31,7 +29,6 @@ public class RestChart  {
 		this.data = data;
 	}
 	
-	@JsonIgnore
 	public String getName() {
 		return name;
 	}
@@ -69,4 +66,5 @@ public class RestChart  {
 		this.chartType = ChartType.parse(type);
 	}
 
+	
 }

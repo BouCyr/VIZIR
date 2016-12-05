@@ -39,24 +39,26 @@
 		fieldset.appendChild(newCanvas);
 
 		loadChart('/vizr/chart/' + chartElement.id, 'test');
-
-		document.getElementById('chartName').innerHTML=selectName;
 		
 	}
 </script>
 <body>
 
 	<div id="main">
-		<div id="select">
 
-
+		<div id="left">
+			
+			<div class="logo">
+				<img src="/VIZIRLOGO.png" />
+			</div>
 			<c:forEach var="provider" items="${providers}">
 				<p class="provider" id="${provider.name}">
 					<c:out value="${provider.name}" />
 				</p>
 
 				<c:forEach var="chart" items="${provider.charts}">
-					<p class="chart" id="${chart}" provider="${provider.name}" onclick="displayChart(this);">
+					<p class="chart" id="${chart}" provider="${provider.name}"
+						onclick="displayChart(this);">
 						<c:out value="${chart}" />
 					</p>
 				</c:forEach>
@@ -66,10 +68,13 @@
 
 		</div>
 		<div id="charts">
-			
+			<div class="header">
+				<a href="/charts" class="topLink selected">All charts</a>
+				<a href="/sql" class="topLink">SQL charts</a>
+				<a href="/dashboard" class="topLink">Dashboards</a>
+			</div>
 			<div style="flex-grow: 10;">
-				
-				<fieldSet style="height: 400px;" id="fs">
+				<fieldSet style=" padding-bottom:10px;height: 400px;" id="fs">
 					<legend id="chartName"></legend>
 					<vz:line name="test" load="false" />
 				</fieldSet>
@@ -80,7 +85,7 @@
 </body>
 <c:if test="${loadChart}">
 
-<script>
+	<script>
 	displayChart(${chartName});
 </script>
 

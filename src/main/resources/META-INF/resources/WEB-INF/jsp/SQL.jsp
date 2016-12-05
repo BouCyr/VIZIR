@@ -9,29 +9,81 @@
 <head>
 <title>Create chart</title>
 <link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" href="/vizirHL.css">
+<script src="/highlight.pack.js"></script>
 <script src="/Chart.bundle.js"></script>
 <script src="/vizr.js"></script>
 <script src="/testchart.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
 </head>
 
+<script>
+	function displayChart(chartElement ) {
+		
 
-
+		window.location="/sql?chartName="+chartElement.id;
+		
+	}
+</script>
 
 <body>
 	<div id="main">
-		<div id="select"></div>
 
 
-		<div id="chartCreation">
-			<form:form method="post" modelAttribute="chart" action="/saveChart">
+
+
+		<div id="left">
+			
+			<div class="logo">
+				<img src="/VIZIRLOGO.png" />
+			</div>
+			<c:forEach var="provider" items="${providers}">
+				<p class="provider" id="${provider.name}">
+					<c:out value="${provider.name}" />
+				</p>
+
+				<c:forEach var="chartFromDb" items="${provider.charts}">
+					<p class="${chart.name eq chartFromDb ? 'chart selected' : 'chart' }" id="${chartFromDb}" provider="${provider.name}"
+						onclick="displayChart(this);">
+						<c:out value="${chartFromDb}" />
+					</p>
+				</c:forEach>
+			</c:forEach>
+
+
+
+		</div>
+
+
+		<div id="charts">
+	
+			<div class="header">
+				<a href="/charts" class="topLink ">All charts</a>
+				<a href="/sql" class="topLink selected">SQL charts</a>
+				<a href="/dashboard" class="topLink">Dashboards</a>
+			</div>
+			
+			<form:form method="GET" modelAttribute="chart" action="/sql">
+			
+				<fieldset id="sqlFS">
+					<legend>Chart metadata</legend>
+					<div class="inputHolder">
+						<label for="nameInput">Name</label><form:input path="name" id="nameInput" />
+					</div>
+				</fieldset>
+			
 				<fieldset id="sqlFS">
 					<legend>Request</legend>
 
-					<textarea id="sqlInput" name="sql" rows="8" cols="90">
+					<textarea id="sqlInput" oninput="SQLChanged()" name="sql" rows="8" cols="90">
 						<c:out value='${SQL}' />
 					</textarea>
-					<div id="sqlError"></div>
-					<button type="button" onclick="executeSql();">Execute</button>
+					
+					<div>
+						<code id="SQLDIV" class="sql"></code>
+						<div id="sqlError"></div>
+					</div>	
 				</fieldset>
 
 
@@ -55,12 +107,30 @@
 						<canvas id="test" class="testChart" />
 					</fieldSet>
 				</div>
-				<div id="save">
-					<label for="nameInput">Name</label><input type="text" id="nameInput" />
-					<button type="button" onclick="saveChart();">Sauver</button>
+				<div class="actions">
+					<button type="button" class="cancelButton" onclick="window.location.replace('/sql');return true;" >Cancel</button>
+					<button type="button" class="okButton" onclick="saveChart();">Sauver</button>
 				</div>
 			</form:form>
 		</div>
 	</div>
 </body>
+
+<script>
+<c:if test="${not empty SQL}">
+
+
+
+
+	executeSql();
+	SQLChanged();
+	
+	xAxis = '${chart.axisX}';
+	yAxis=[<c:forEach var="y" items="${chart.axisY}">'<c:out value="${y}" />',</c:forEach>];
+	
+	fromForm();
+	
+</c:if>
+</script>
+
 </html>

@@ -37,6 +37,14 @@ function fromForm(){
 	testChart(sql, xAxis, yAxis, type);
 }
 
+function selectAxis(){
+	
+	if(xAxis != null){
+		document.getElementById("x"+xAxis).checked = true;
+		
+	}
+}
+
 function executeSql(){
 	
 	
@@ -110,7 +118,12 @@ function readSQLResult(sqlResult){
 		radio.type='radio';
 		radio.addEventListener("click", xChanged);
 		radio.value=sqlResult.headers[i];	
-		radio.name="XAX"
+		radio.name="XAX";
+		radio.id = "x"+sqlResult.headers[i];
+		
+		if(xAxis === sqlResult.headers[i])
+			radio.checked=true;
+		
 		tdd.appendChild(radio);
 		
 		trX.appendChild(tdd);
@@ -131,7 +144,11 @@ function readSQLResult(sqlResult){
 		checkbox.type='checkbox';
 		checkbox.addEventListener("click", yChanged);
 		checkbox.value=sqlResult.headers[i];
+		checkbox.id="y"+sqlResult.headers[i];
 		
+		if(yAxis.indexOf(sqlResult.headers[i]) != -1){
+			checkbox.checked = true;
+		}
 
 		tdy.appendChild(checkbox);
 		
@@ -196,4 +213,15 @@ function testChart(sql, xAxis, yAxis, type){
 	xmlhttp.setRequestHeader("Accept","application/json");
 	xmlhttp.setRequestHeader("Content-Type","application/json")
 	xmlhttp.send(json);
+}
+
+function SQLChanged(){
+	var sqlString = sqlInput.value.trim();
+	sqlString =sqlString.replace(/\s+/g,' ').replace(/^\s+|\s+$/,'');
+	
+	SQLDIV.innerHTML = sqlString;
+	
+	hljs.highlightBlock(SQLDIV);
+	
+	executeSql();
 }

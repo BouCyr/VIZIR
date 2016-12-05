@@ -4,8 +4,8 @@ function loadChart(url, chart){
 
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			var myArr = JSON.parse(this.responseText);
-			updateChart(myArr, chart);
+			var chartData = JSON.parse(this.responseText);
+			updateChart(chartData, chart);
 		}
 	};
 
@@ -14,9 +14,15 @@ function loadChart(url, chart){
 	xmlhttp.setRequestHeader("Accept","application/json");
 	xmlhttp.setRequestHeader("Content-Type","application/json")
 	xmlhttp.send();
+	
+
 }
 
-function updateChart(arr, chart) {
+function updateChart(chartData, chart) {
 	var ctx = document.getElementById(chart);
-	var myChart2 = new Chart(ctx, arr);
+	var myChart2 = new Chart(ctx, chartData);
+	
+	if(chartName != null){
+		chartName.innerHTML = chartData.name;
+	}
 }

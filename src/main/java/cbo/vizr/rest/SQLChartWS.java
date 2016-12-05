@@ -3,7 +3,6 @@ package cbo.vizr.rest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.sql.DataSource;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,6 @@ public class SQLChartWS {
 	@Autowired
 	DBChartProvider provider;
 	
-	@Autowired
-	DataSource source;
 	
 	@RequestMapping(consumes=MediaType.APPLICATION_JSON, 
 			produces=MediaType.APPLICATION_JSON, 
@@ -45,6 +42,13 @@ public class SQLChartWS {
 			method=RequestMethod.POST, 
 			path="/save")
 	public void saveChart(@RequestBody SqlChart chart) throws ChartCreationException{
+		
+		if(chart.getName() != null){
+			SqlChart fromDb = provider.findByName(chart.getName());
+			if(fromDb!=null)
+				chart.setId(fromDb.getId());
+		}
+		
 		
 		chart.setSql(chart.getSql().trim());
 		
